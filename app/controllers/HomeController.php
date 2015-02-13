@@ -14,6 +14,45 @@ class HomeController extends BaseController {
 	 |	Route::get('/', 'HomeController@showWelcome');
 	 |
 	 */
+	 
+	 
+	 public function deletemenu(){
+	 		
+			
+			$menus= new Menus();
+			$getall=$menus->getall(Input::get("m"));
+			
+				if(count($getall)==0){
+					$menudelete=Menu::find(Input::get("m"));
+					$menudelete->delete();
+					return Redirect::route("menucreator",array("resp"=>"has been deleted successfully"));
+				}else{
+										return Redirect::route("menucreator",array("resp"=>"You have to delete all items first"));
+						
+						
+						
+						
+					}
+			
+	 	}
+	 
+	 public function createmenu(){
+	 	
+		
+		
+		$menu= new Menu();
+		$menu->name=Input::get("name");
+		$menu->save();
+		
+		return Redirect::route("menucreator");
+	 }
+	 
+	 public function menucreator(){
+	 	
+		$menu=  Menu::all();
+		
+		return View::make('menucreator')->with("menus",$menu);
+	 }
 
 	function buildMenu($parent, $menu) {
 
@@ -38,8 +77,8 @@ class HomeController extends BaseController {
 
 	public function insertardata($data, $padre) {
 		foreach ($data as $in) {
-			$menu = new Menu();
-			$menufind = Menu::find($in["id"]);
+			$menu = new Menus();
+			$menufind = Menus::find($in["id"]);
 			if (count($menufind) != 1) {
 				$menu -> id = $in["id"];
 				$menu -> label = $in["label"];
@@ -70,7 +109,7 @@ class HomeController extends BaseController {
 
 
 		if (Input::get("id") == 0) {
-			$menu = new Menu();
+			$menu = new Menus();
 		 if(Input::has("label")){
 							$menu -> label = Input::get("label");
 			
@@ -120,10 +159,10 @@ class HomeController extends BaseController {
 
 	public function menudeletepost() {
 		
-		$menumodel = new Menu();
+		$menumodel = new Menus();
 		$sons=$menumodel -> getsons(Input::get("id"));
 		if(count($sons)==0){
-		$menub = Menu::find(Input::get("id"));
+		$menub = Menus::find(Input::get("id"));
 	
 		$menub -> delete();
 					echo json_encode(array("resp"=>"This item has been deleted successfully","error"=>2));
@@ -137,7 +176,7 @@ class HomeController extends BaseController {
 
 
 public function menupreview(){
-	$menu = new Menu();
+	$menu = new Menus();
 		$getall = $menu -> getall(1);
 
 		$menu = array('items' => array(), 'parents' => array());
@@ -164,7 +203,7 @@ return View::make('menupreview') -> with("menus", $items); ;
 
 	public function menu() {
 
-		$menu = new Menu();
+		$menu = new Menus();
 		
 		
 		$getall = $menu -> getall(Input::get("m"));
