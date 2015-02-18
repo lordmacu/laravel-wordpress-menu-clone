@@ -99,7 +99,6 @@
 							<div class="form-group">
 								<textarea name="widgeteditor" id="widgeteditor" rows="10" cols="80"></textarea>
 							</div>
-
 						</div>
 
 						<div class="modal-footer">

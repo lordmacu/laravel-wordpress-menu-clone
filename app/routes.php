@@ -13,7 +13,6 @@
 |
 */
 Route::get('/menucreator' , 'HomeController@menucreator');
-
 Route::get('/menu' , 'HomeController@menu');
 Route::get('/widgetcreator', array('as' => 'widgetcreator','uses'=>'HomeController@widgetcreator'));
 Route::post('/getwidgetinformation', array('as' => 'getwidgetinformation','uses'=>'HomeController@getwidgetinformation'));
@@ -26,7 +25,3 @@ Route::post('/updatemenus', array('as' => 'updatemenus','uses'=>'HomeController@
 Route::post('/createmenu', array('as' => 'createmenu','uses'=>'HomeController@createmenu'));
 Route::post('/createwidget', array('as' => 'createwidget','uses'=>'HomeController@createwidget'));
 Route::post('/menudeletepost', array('as' => 'menudeletepost','uses'=>'HomeController@menudeletepost'));
-Route::get('/', function()
-{
-	return View::make('hello');
-});
