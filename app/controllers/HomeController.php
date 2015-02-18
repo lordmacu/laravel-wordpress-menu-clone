@@ -16,7 +16,7 @@ class HomeController extends BaseController {
 	 */
 
 	public function deletemenu() {
-		$menus = new Menus();
+		$menus = new MenuItem();
 		$getall = $menus -> getall(Input::get("m"));
 		if (count($getall) == 0) {
 			$menudelete = Menu::find(Input::get("m"));
@@ -39,6 +39,33 @@ class HomeController extends BaseController {
 		return View::make('menucreator') -> with("menus", $menu);
 	}
 
+	public function getwidgetinformation() {
+
+		$widget = Widget::find(Input::get("id"));
+
+		return $widget -> toJson();
+	}
+
+	public function createwidget() {
+
+		if (Input::has("idwidget")) {
+			$widget = Widget::find(Input::get("idwidget"));
+		} else {
+			$widget = new Widget();
+		}
+		$widget -> name = Input::get("name");
+		$widget -> description = Input::get("widgeteditor");
+		$widget -> save();
+		return Redirect::route("widgetcreator");
+
+	}
+
+	public function widgetcreator() {
+		$widget = Widget::all();
+
+		return View::make('widgetcreator') -> with("widgets", $widget); ;
+	}
+
 	function buildMenu($parent, $menu) {
 		$array = array();
 		$contador = 0;
@@ -58,10 +85,17 @@ class HomeController extends BaseController {
 		return $array;
 	}
 
+	public function deletewidget() {
+
+		$widget = Widget::find(Input::get("id"));
+		$widget -> delete();
+		return Redirect::route("widgetcreator", array("resp" => "has been deleted successfully"));
+	}
+
 	public function insertardata($data, $padre) {
 		foreach ($data as $in) {
-			$menu = new Menus();
-			$menufind = Menus::find($in["id"]);
+			$menu = new MenuItem();
+			$menufind = MenuItem::find($in["id"]);
 			if (count($menufind) != 1) {
 				$menu -> id = $in["id"];
 				$menu -> label = $in["label"];
@@ -80,16 +114,16 @@ class HomeController extends BaseController {
 	}
 
 	public function getallmenus() {
-		$menuliist = Menu::where("menu", Input::get("menu")) -> orderBy("label", "asc") -> lists("label", "id");
+		$menuliist = MenuItem::where("menu", Input::get("menu")) -> orderBy("label", "asc") -> lists("label", "id");
 		$menuliist[0] = "Select parent";
-		$html = '	<label for="label">Menus</label>';
+		$html = '	<label for="label">MenuItem</label>';
 		$html .= Form::select('parent', $menuliist, Input::get("parent"), array("class" => "form-control", "id" => "parentselect"));
 		return $html;
 	}
 
 	public function updatemenus() {
 		if (Input::get("id") == 0) {
-			$menu = new Menus();
+			$menu = new MenuItem();
 			if (Input::has("label")) {
 				$menu -> label = Input::get("label");
 			}
@@ -129,10 +163,10 @@ class HomeController extends BaseController {
 	}
 
 	public function menudeletepost() {
-		$menumodel = new Menus();
+		$menumodel = new MenuItem();
 		$sons = $menumodel -> getsons(Input::get("id"));
 		if (count($sons) == 0) {
-			$menub = Menus::find(Input::get("id"));
+			$menub = MenuItem::find(Input::get("id"));
 			$menub -> delete();
 			echo json_encode(array("resp" => "This item has been deleted successfully", "error" => 2));
 		} else {
@@ -142,7 +176,7 @@ class HomeController extends BaseController {
 	}
 
 	public function menupreview() {
-		$menu = new Menus();
+		$menu = new MenuItem();
 		$getall = $menu -> getall(1);
 		$menu = array('items' => array(), 'parents' => array());
 		foreach ($getall as $key => $items) {
@@ -159,7 +193,7 @@ class HomeController extends BaseController {
 	}
 
 	public function menu() {
-		$menu = new Menus();
+		$menu = new MenuItem();
 		$getall = $menu -> getall(Input::get("m"));
 		$menu = array('items' => array(), 'parents' => array());
 		foreach ($getall as $key => $items) {

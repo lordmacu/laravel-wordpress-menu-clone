@@ -1,8 +1,6 @@
 <?php
 
-class Menus extends Eloquent {
-
-	protected $table = 'menus';
+class MenuItem extends Eloquent {
 
 	public function getsons($id) {
 		return $this -> where("parent", $id) -> get();

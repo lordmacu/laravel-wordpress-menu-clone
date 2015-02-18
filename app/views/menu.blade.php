@@ -438,6 +438,7 @@
 				$("#link").val("");
 				$("#idlabel").val(0);
 				$('#modaledit').modal('show')
+				$("#parentselect").val(0); 
 
 			}
 
