@@ -2,45 +2,38 @@
 -- version 4.2.10
 -- http://www.phpmyadmin.net
 --
--- Servidor: localhost
--- Tiempo de generación: 13-02-2015 a las 20:34:38
--- Versión del servidor: 5.5.38
--- Versión de PHP: 5.6.2
+-- Host: localhost
+-- Generation Time: Feb 18, 2015 at 08:33 PM
+-- Server version: 5.5.38
+-- PHP Version: 5.6.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 --
--- Base de datos: `base`
+-- Database: `base`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `menu`
+-- Table structure for table `menus`
 --
 
-CREATE TABLE `menu` (
+CREATE TABLE `menus` (
 `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
-
---
--- Volcado de datos para la tabla `menu`
---
-
-INSERT INTO `menu` (`id`, `name`, `created_at`, `updated_at`) VALUES
-(1, 'principal', '2015-02-13 18:48:11', '0000-00-00 00:00:00');
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `menus`
+-- Table structure for table `menu_items`
 --
 
-CREATE TABLE `menus` (
+CREATE TABLE `menu_items` (
 `id` int(11) NOT NULL,
   `label` varchar(255) NOT NULL,
   `link` varchar(255) NOT NULL,
@@ -50,13 +43,13 @@ CREATE TABLE `menus` (
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `class` varchar(50) DEFAULT NULL,
   `menu` int(11) DEFAULT '1'
-) ENGINE=InnoDB AUTO_INCREMENT=278 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=280 DEFAULT CHARSET=latin1;
 
 --
--- Volcado de datos para la tabla `menus`
+-- Dumping data for table `menu_items`
 --
 
-INSERT INTO `menus` (`id`, `label`, `link`, `parent`, `sort`, `created_at`, `updated_at`, `class`, `menu`) VALUES
+INSERT INTO `menu_items` (`id`, `label`, `link`, `parent`, `sort`, `created_at`, `updated_at`, `class`, `menu`) VALUES
 (215, 'Inspiration', '', '221', '1', '2015-02-13 23:56:27', '2015-02-13 23:56:27', 'submenumega col-md-2', 1),
 (216, 'White Papers', '/white-paper', '215', '1', '2015-02-13 23:56:27', '2015-02-13 23:56:27', '', 1),
 (217, 'Infographics', '/infographics', '215', '2', '2015-02-13 23:56:27', '2015-02-13 23:56:27', '', 1),
@@ -119,35 +112,71 @@ INSERT INTO `menus` (`id`, `label`, `link`, `parent`, `sort`, `created_at`, `upd
 (274, 'Submit Order / Contact Us', '/contact/', '272', '2', '2015-02-13 23:56:27', '2015-02-13 23:56:27', '', 1),
 (275, 'Find Your Rep', '/contact/', '272', '3', '2015-02-13 23:56:27', '2015-02-13 23:56:27', '', 1),
 (276, 'Request Finish Sample', '/contact/', '272', '4', '2015-02-13 23:56:27', '2015-02-13 23:56:27', '', 1),
-(277, 'asdf', 'asdf', '0', '1', '2015-02-13 23:56:27', '2015-02-13 23:56:27', 'asdf', 1);
+(278, 'asdf', 'sadf', '251', '0', '2015-02-19 00:25:26', '2015-02-19 00:25:26', 'asf', 1);
+
+-- --------------------------------------------------------
 
 --
--- Índices para tablas volcadas
+-- Table structure for table `widgets`
+--
+
+CREATE TABLE `widgets` (
+`id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `widgets`
+--
+
+INSERT INTO `widgets` (`id`, `name`, `description`, `created_at`, `updated_at`) VALUES
+(2, 'asdf', '<p>sadfsdf</p>\r\n', '2015-02-18 22:37:49', '2015-02-18 22:37:49'),
+(3, 'asdf', '<p>sadfsdf</p>\r\n', '2015-02-18 22:38:23', '2015-02-18 22:38:23'),
+(4, 'asdf', '<p>s</p>\r\n', '2015-02-18 22:38:32', '2015-02-18 22:38:32'),
+(5, 'Ssd', '<p>df</p>\r\n', '2015-02-18 22:39:01', '2015-02-18 22:39:01'),
+(6, 'Primer widget tres', '<p>este es el texto del widget</p>\r\n', '2015-02-19 00:09:37', '2015-02-19 00:15:40');
+
+--
+-- Indexes for dumped tables
 --
 
 --
--- Indices de la tabla `menu`
---
-ALTER TABLE `menu`
- ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `menus`
+-- Indexes for table `menus`
 --
 ALTER TABLE `menus`
  ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT de las tablas volcadas
+-- Indexes for table `menu_items`
+--
+ALTER TABLE `menu_items`
+ ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `widgets`
+--
+ALTER TABLE `widgets`
+ ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT de la tabla `menu`
---
-ALTER TABLE `menu`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT de la tabla `menus`
+-- AUTO_INCREMENT for table `menus`
 --
 ALTER TABLE `menus`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=278;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `menu_items`
+--
+ALTER TABLE `menu_items`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=280;
+--
+-- AUTO_INCREMENT for table `widgets`
+--
+ALTER TABLE `widgets`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
