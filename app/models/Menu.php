@@ -1,13 +1,7 @@
-
-
 <?php
-
 
 class Menu extends Eloquent {
 
-    protected $table = 'menu';
-
-
-
+	protected $table = 'menu';
 
 }

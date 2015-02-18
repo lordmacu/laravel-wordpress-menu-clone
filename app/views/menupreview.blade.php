@@ -356,7 +356,7 @@
 										$menustring[0] = "";
 									}
 									if ($menustring[0] == "submenumega") {
-										$html .= '<div class="'.$menustring[1].'">';
+										$html .= '<div class="' . $menustring[1] . '">';
 									}
 									$html .= '<li id="menuitem_' . $menu['id'] . '"  data-class="' . $menu['class'] . '" data-sort="' . $menu['sort'] . '" data-link="' . $menu['link'] . '"  data-label="' . $menu['label'] . '" data-id="' . $menu['id'] . '">';
 									if ($menustring[0] == "submenumega") {
@@ -1152,8 +1152,7 @@
 
 		<script type="text/javascript">
 			adroll_adv_id = "WYPT5YJW2BHNDPDFI7G55R";
-			adroll_pix_id = "FARCJ7KI55CEPF7G7FJJLF";
-			( function() {
+			adroll_pix_id = "FARCJ7KI55CEPF7G7FJJLF"; ( function() {
 					var oldonload = window.onload;
 					window.onload = function() {
 						__adroll_loaded = true;

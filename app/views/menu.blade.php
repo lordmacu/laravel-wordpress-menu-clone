@@ -379,8 +379,7 @@
 
 							</div>
 
-<div class="form-group" id="menuresponse">
-</div>
+							<div class="form-group" id="menuresponse"></div>
 
 							<button type="submit" class="btn btn-default">
 								Submit
@@ -391,9 +390,11 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="row" style="text-align: center">
-			<button class="btn btn-success" onclick="createmenu()">Create Menu</button>
+			<button class="btn btn-success" onclick="createmenu()">
+				Create Menu
+			</button>
 		</div>
 
 		<div class="cf nestable-lists">
@@ -407,7 +408,6 @@
 
 		</div>
 
-
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 		<script src="http://malsup.github.com/jquery.form.js"></script>
@@ -416,49 +416,39 @@
 		<script>
 			var datos = [];
 
+			function getAllMenus(id) {
+				$.ajax({
+				dataType : "text",
+				data:{parent:id,menu:{{Input::
+				get('m')
+			}}}, url : "{{route('getallmenus')}}",
+			type: 'GET',
+			beforeSend : function(e) {
+				$("#menuresponse").html("");
+			}, success : function(response) {
+				$("#menuresponse").html(response);
+			}
+			});
 
-function getAllMenus(id){
-	
-	$.ajax({
-					dataType : "text",
-data:{parent:id,menu:{{Input::get('m')}}},
-					url : "{{route('getallmenus')}}",
-					type: 'GET',
-					beforeSend : function(e) {
-						
-$("#menuresponse").html("");
-
-					},
-					success : function(response) {
-						$("#menuresponse").html(response);
-
-					}
-				});
-	
-}
-function createmenu(){
-	getAllMenus();
-			  	$("#label").val("");
-			  	$("#class").val("");
-
+			}
+			function createmenu() {
+				getAllMenus();
+				$("#label").val("");
+				$("#class").val("");
 				$("#link").val("");
 				$("#idlabel").val(0);
-								$('#modaledit').modal('show')
+				$('#modaledit').modal('show')
 
-}
+			}
 
 			function editmenu(id) {
-
 				var label = $("#menuitem_" + id).data("label")
 				var id = $("#menuitem_" + id).data("id")
 				var link = $("#menuitem_" + id).data("link")
 				var classes = $("#menuitem_" + id).data("classes")
 				var parent = $("#menuitem_" + id).data("parent")
-getAllMenus(parent);
-console.log(parent);
-
+				getAllMenus(parent);
 				$("#parentselect").val(parent);
-
 				$("#label").val(label);
 				$("#link").val(link);
 				$("#class").val(classes);
@@ -470,35 +460,25 @@ console.log(parent);
 			}
 
 			function deletemenu(id) {
-
 				var r = confirm("do you want to delete this record?");
 				if (r == true) {
-
 					$.ajax({
 						data : {
 							id : id
 						},
 						dataType : "text",
-
 						url : "{{route('menudeletepost')}}",
 						type : 'post',
 
 						success : function(response) {
-							
-							var json=JSON.parse(response);
-						
-							if(json.error==1){
+							var json = JSON.parse(response);
+							if (json.error == 1) {
 								alert(json.resp)
 								return false;
-							}else{
+							} else {
 								console.log("#menuitem_" + id)
-								$("#menuitem_" + id).remove();	
+								$("#menuitem_" + id).remove();
 							}
-							
-							
-							
-
-							
 						}
 					});
 				}
@@ -506,18 +486,13 @@ console.log(parent);
 			}
 
 			function enviardatosmenu() {
-
 				var parametros = {
 					"jsondata" : datos,
 				};
-
 				var datsstring = JSON.stringify(datos);
-			
-
 				$.ajax({
 					data : parametros,
 					dataType : "text",
-
 					url : "{{route('menupost')}}",
 					type : 'post',
 					beforeSend : function() {
@@ -527,28 +502,24 @@ console.log(parent);
 						$("#resultado").html(response);
 					}
 				});
-
 			}
 
 
 			$(document).ready(function() {
-
-				// bind form using 'ajaxForm'
 				$('#sendform').ajaxForm({
 					success : function() {
-
-$("#label").val("")
-$("#idlabel").val(0)
-$("#link").val("")
-$("#class").val("")
-	$('#modaledit').modal('hide')
+						$("#label").val("")
+						$("#idlabel").val(0)
+						$("#link").val("")
+						$("#class").val("")
+						$('#modaledit').modal('hide')
 					}
 				});
 
+				function collapse() {
+					$('.dd').nestable('collapseAll');
+				}
 
-function collapse(){
-	 $('.dd').nestable('collapseAll');
-}
 				function popular(jsonnomal) {
 					var contador = 0;
 					var dataarray = [];
@@ -572,37 +543,26 @@ function collapse(){
 				}
 
 				var updateOutput = function(e) {
-					var list = e.length ? e : $(e.target),
-					    output = list.data('output');
+					var list = e.length ? e : $(e.target), output = list.data('output');
 					if (window.JSON) {
-
 						var jsonnomal = list.nestable('serialize');
-
 						var contador = 0;
-
 						var jsondata = popular(jsonnomal);
-						
 						datos = jsondata;
-enviardatosmenu()
-
+						enviardatosmenu()
 					} else {
 						output.val('JSON browser support required for this demo.');
 					}
 				};
 
-				// activate Nestable for list 1
-
-				// activate Nestable for list 2
+		
 				$('#nestable').nestable({
 					group : 1
 				}).on('change', updateOutput);
 
-				// output initial serialised data
 				updateOutput($('#nestable').data('output', $('#nestable2-output')));
-
 				$('#nestable-menu').on('click', function(e) {
-					var target = $(e.target),
-					    action = target.data('action');
+					var target = $(e.target), action = target.data('action');
 					if (action === 'expand-all') {
 						$('.dd').nestable('expandAll');
 					}

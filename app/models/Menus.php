@@ -1,20 +1,15 @@
-
-
 <?php
-
 
 class Menus extends Eloquent {
 
-    protected $table = 'menus';
+	protected $table = 'menus';
 
+	public function getsons($id) {
+		return $this -> where("parent", $id) -> get();
+	}
 
-public function getsons($id){
-	return $this->where("parent",$id)->get();
-}
-public function getall($id){
-	
-	
-	return $this->where("menu",$id)->orderBy("sort","asc")->get();
-}
+	public function getall($id) {
+		return $this -> where("menu", $id) -> orderBy("sort", "asc") -> get();
+	}
 
 }

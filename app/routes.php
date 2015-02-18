@@ -12,16 +12,9 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
-  Route::get('/menucreator', array('as' => 'menucreator','uses'=>'HomeController@menucreator'));
-   Route::get('/deletemenu', array('as' => 'deletemenu','uses'=>'HomeController@deletemenu'));
- 
- 
-  
- Route::post('/createmenu', array('as' => 'createmenu','uses'=>'HomeController@createmenu'));
- Route::post('/menu', array('as' => 'menu','uses'=>'HomeController@menu'));
- Route::post('/menupreview', array('as' => 'menupreview','uses'=>'HomeController@menupreview'));
+Route::get('/menucreator' , 'HomeController@menucreator');
 
- 
+Route::get('/menu' , 'HomeController@menu');
 Route::get('/menupreview' , 'HomeController@menupreview');
 Route::get('/getallmenus', array('as' => 'getallmenus','uses'=>'HomeController@getallmenus'));
 Route::post('/menupost', array('as' => 'menupost','uses'=>'HomeController@menupost'));
