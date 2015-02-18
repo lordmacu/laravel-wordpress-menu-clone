@@ -422,9 +422,8 @@
 			function getAllMenus(id) {
 				$.ajax({
 				dataType : "text",
-				data:{parent:id,menu:{{Input::
-				get('m')
-			}}}, url : "{{route('getallmenus')}}",
+				data:{parent:id,menu:{{Input::get('m')}}}
+				, url : "{{route('getallmenus')}}",
 			type: 'GET',
 			beforeSend : function(e) {
 				$("#menuresponse").html("");

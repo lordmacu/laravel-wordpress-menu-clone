@@ -45,14 +45,14 @@
 						<tr>
 							<th scope="row">{{$m->id}}</th>
 							<td>{{$m->name}}</td>
-							<th> <a href="{{route('deletemenu',array('m'=>$m->id))}}" class="btn btn-danger">Delete</a></th>
+							<th> <a href="{{route('deletemenu',array('m'=>$m->id))}}" class="btn btn-danger">Delete</a> <a href="{{route('menu',array('m'=>$m->id))}}" class="btn btn-info">View</a></th>
 						</tr>
 						@endforeach
 					</tbody>
 				</table>
 			</div>
 		</div>
-		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> 
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<form action="{{route('createmenu')}}" method="post">

@@ -15,7 +15,7 @@
 
 Route::get('/generatemenu', array('as' => 'generatemenu','uses'=>'HomeController@generatemenu'));
 Route::get('/menucreator' , 'HomeController@menucreator');
-Route::get('/menu' , 'HomeController@menu');
+Route::get('/menu', array('as' => 'menu','uses'=>'HomeController@menu'));
 Route::get('/widgetcreator', array('as' => 'widgetcreator','uses'=>'HomeController@widgetcreator'));
 Route::post('/getwidgetinformation', array('as' => 'getwidgetinformation','uses'=>'HomeController@getwidgetinformation'));
 Route::get('/deletewidget', array('as' => 'deletewidget','uses'=>'HomeController@deletewidget'));
