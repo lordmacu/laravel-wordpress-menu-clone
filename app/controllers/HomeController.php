@@ -175,6 +175,81 @@ class HomeController extends BaseController {
 
 	}
 
+	public function generarmenu($menus) {
+		$html = '<style>  .infolist{ display:block !important}</style>';
+		foreach ($menus as $menu) {
+			$menustring = explode(" ", $menu['class']);
+
+			if (!isset($menustring[1])) {
+				$menustring[1] = "";
+			}
+			if (!isset($menustring[0])) {
+				$menustring[0] = "";
+			}
+			if ($menustring[0] == "submenumega") {
+				$html .= '<div class="' . $menustring[1] . '">';
+			}
+			$html .= '<li id="menuitem_' . $menu['id'] . '"  data-class="' . $menu['class'] . '" data-sort="' . $menu['sort'] . '" data-link="' . $menu['link'] . '"  data-label="' . $menu['label'] . '" data-id="' . $menu['id'] . '">';
+			if ($menustring[0] == "submenumega") {
+				$html .= '<span>' . $menu['label'] . ' </span>';
+			} else {
+				$html .= '<a href="' . $menu['link'] . '" class="sf-with-ul">' . $menu['label'] . ' </a>';
+			}
+			if ($menustring[0] == "sf-megas") {
+				$html .= '<div class="sf-mega"><div class="sf-mega-content"><div class="row">';
+			}
+			if (isset($menu["hijos"])) {
+				if ($menustring[0] == "sf-megas") {
+					$html .= '<ul >';
+
+				} else {
+					if ($menustring[0] == "submenumega") {
+						$html .= '<ul  class="infolist">';
+
+					} else {
+						$html .= '<ul class="dd-list">';
+					}
+				}
+				$html .= $this -> generarmenu($menu["hijos"]);
+				$html .= '</ul>';
+			}
+			if ($menustring[0] == "sf-megas") {
+				$html .= '</div></div></div>';
+			}
+			if ($menustring[0] == "submenumega") {
+				$html .= '</div>';
+			}
+			$html .= '</li>';
+		}
+		return $html;
+	}
+
+	public function generatemenu() {
+
+		$menu = new MenuItem();
+		$getall = $menu -> getall(1);
+		$menu = array('items' => array(), 'parents' => array());
+		foreach ($getall as $key => $items) {
+			$menu['items'][$items['id']] = $items -> toArray();
+			$menu['parents'][$items['parent']][] = $items -> id;
+		}
+		$items = $this -> buildMenu(0, $menu);
+		$menufind = Menu::find(Input::get("id"));
+
+		$widget = new Widget();
+
+		$widgetbymenu = $widget -> getWidgetByMenu(Input::get("id"));
+		if ($widgetbymenu -> count()) {
+			$widget = Widget::find($widgetbymenu[0] -> id);
+		}
+		
+		$widget -> name = $menufind -> name;
+		$widget->id_component=Input::get("id"); 
+		$widget -> description = $this -> generarmenu($items);
+		$widget -> save();
+
+	}
+
 	public function menupreview() {
 		$menu = new MenuItem();
 		$getall = $menu -> getall(1);
@@ -184,11 +259,13 @@ class HomeController extends BaseController {
 			$menu['parents'][$items['parent']][] = $items -> id;
 		}
 		$items = $this -> buildMenu(0, $menu);
+
+		//	echo $this->generarmenu($items);
 		return View::make('menupreview') -> with("menus", $items); ;
 	}
 
 	public function menupost() {
-		DB::table('menus') -> delete();
+		DB::table('menu_items') -> delete();
 		$this -> insertardata(Input::get("jsondata"), 0);
 	}
 

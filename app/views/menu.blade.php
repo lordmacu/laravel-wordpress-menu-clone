@@ -391,9 +391,12 @@
 			</div>
 		</div>
 
-		<div class="row" style="text-align: center">
+		<div class="row" style="text-align: center;padding: 10px">
 			<button class="btn btn-success" onclick="createmenu()">
 				Create Menu
+			</button>
+			<button class="btn btn-default pull-right" onclick="generatemenu()">
+				Generate widget
 			</button>
 		</div>
 
@@ -430,6 +433,19 @@
 			}
 			});
 
+			}
+			
+			function generatemenu(){
+				$.ajax({
+				dataType : "text",
+				data:{id:{{Input::get('m')}}},
+			 url : "{{route('generatemenu')}}",
+			type: 'GET',
+			 success : function(response) {
+
+
+			}
+			});
 			}
 			function createmenu() {
 				getAllMenus();

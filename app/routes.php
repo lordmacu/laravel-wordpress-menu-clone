@@ -12,6 +12,8 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
+
+Route::get('/generatemenu', array('as' => 'generatemenu','uses'=>'HomeController@generatemenu'));
 Route::get('/menucreator' , 'HomeController@menucreator');
 Route::get('/menu' , 'HomeController@menu');
 Route::get('/widgetcreator', array('as' => 'widgetcreator','uses'=>'HomeController@widgetcreator'));
