@@ -392,10 +392,13 @@
 		</div>
 
 		<div class="row" style="text-align: center;padding: 10px">
+			<a href="{{route('menucreator')}}" class="btn btn-info pull-left">
+				Back
+			</a>
 			<button class="btn btn-success" onclick="createmenu()">
 				Create Menu
 			</button>
-			<button class="btn btn-default pull-right" onclick="generatemenu()">
+			<button class="btn btn-warning pull-right" onclick="generatemenu()">
 				Generate widget
 			</button>
 		</div>
