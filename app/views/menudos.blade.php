@@ -1,10 +1,8 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" class="wp-toolbar" lang="es-MX">
-
+<html xmlns="http://www.w3.org/1999/xhtml"  lang="es-MX">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
-		<title>Menús ‹ Aviasur — WordPress</title>
+		<title>Menús </title>
 		<script type="text/javascript"></script>
 		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
@@ -25,11 +23,10 @@
 				"subMenuFocus" : "%1$s. N\u00famero de subelemento %2$d de %3$s."
 			};
 		</script>
-		<script type="text/javascript" src="{{asset('menu/scripts.js')}}"></script>
 
 	</head>
-
-	<body class="wp-admin wp-core-ui js   jetpack-disconnected  menu-max-depth-0 nav-menus-php auto-fold admin-bar ">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<body class="wp-admin wp-core-ui js   menu-max-depth-0 nav-menus-php auto-fold admin-bar ">
 
 		<div id="wpwrap">
 			<div id="wpcontent">
@@ -50,7 +47,6 @@
 										<input type="submit" class="button-secondary" value="Elegir">
 									</span>
 									<span class="add-new-menu-action"> o <a href="http://aero.bogotac.com/wp-admin/nav-menus.php?action=edit&menu=0">crea un nuevo menú</a>. </span>
-									<!-- /add-new-menu-action -->
 								</form>
 							</div>
 							<div id="nav-menus-frame">
@@ -85,8 +81,8 @@
 																		<li>
 																			<label class="menu-item-title">
 																				<input type="checkbox" class="menu-item-checkbox" name="menu-item[-1][menu-item-object-id]" value="428">
-																				ORDEN AL MERITO</label>
-
+																				ORDEN AL MERITO
+																			</label>
 																		</li>
 																		@endfor
 																	</ul>
@@ -120,10 +116,8 @@
 																<p class="button-controls">
 																	<span class="list-controls"> <a href="http://aero.bogotac.com/wp-admin/nav-menus.php?menu=26&page-tab=all&selectall=1#posttype-page" class="select-all">Seleccionar todos</a> </span>
 
-																	<span class="add-to-menu">
 																		<input type="submit" class="button-secondary submit-add-to-menu right" value="Añadir al menú" name="add-post-type-menu-item" id="submit-posttype-page">
 																</p>
-
 															</div>
 														</div>
 													</div>
@@ -450,8 +444,63 @@
 				</div>
 				<div class="clear"></div>
 			</div>
-			<script type="text/javascript" src="{{asset('menu/scripts2.js')}}"></script>
+			<script type="text/javascript" src="{{asset('menu/scripts.js')}}"></script>
 
+			<script type="text/javascript" src="{{asset('menu/scripts2.js')}}"></script>
+			<script>
+				var arraydata = [];
+				function getmenus() {
+
+					var cont = 0;
+					$("#menu-to-edit li").each(function(index) {
+						var dept = 0;
+						for (var i = 0; i < $("#menu-to-edit li").length; i++) {
+
+							var n = $(this).attr("class").indexOf("menu-item-depth-" + i);
+							if (n != -1) {
+								dept = i;
+							}
+						};
+
+						var textoiner = $(this).find(".item-edit").context.outerText;
+
+						var textoexplotado = textoiner.split("|");
+						var padre = 0;
+						if (textoexplotado.length == 7) {
+							padre = textoexplotado[5]
+						}
+
+						var id = this.id.split("-");
+
+						arraydata.push({
+							depth : dept,
+							id : id[2],
+							parent : padre,
+							sort : cont
+						})
+						cont++;
+					});
+					console.log(JSON.stringify(arraydata))
+					actualizarmenu();
+				}
+
+				function actualizarmenu() {
+					$.ajax({
+						dataType : "json",
+						data : {
+							arraydata : arraydata
+						},
+
+						url : "{{route('generatemenucontrol')}}",
+						type : 'POST',
+						success : function(response) {
+
+							console.log(response);
+
+						}
+					});
+				}
+			</script>
 			<div class="clear"></div>
 		</div>
 
