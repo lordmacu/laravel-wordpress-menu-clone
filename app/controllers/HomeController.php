@@ -15,6 +15,9 @@ class HomeController extends BaseController {
 	 |
 	 */
 
+	 public function menudos(){
+	 	return View::make('menudos');
+	 }
 	public function deletemenu() {
 		$menus = new MenuItem();
 		$getall = $menus -> getall(Input::get("m"));
