@@ -42,9 +42,9 @@
 									{{ Form::select('menu', $menulist,0) }}
 
 									<span class="submit-btn">
-										<input type="submit" class="button-secondary" value="Elegir">
+										<input type="submit" class="button-secondary" value="Choose">
 									</span>
-									<span class="add-new-menu-action"> o <a href="{{route('menuw')}}?action=edit&menu=0">Create new menu</a>. </span>
+									<span class="add-new-menu-action"> or <a href="{{route('menuw')}}?action=edit&menu=0">Create new menu</a>. </span>
 								</form>
 							</div>
 							<div id="nav-menus-frame">
