@@ -5,7 +5,7 @@ It has a nestable menu and sortable.
 
 This project has two versions of menu creator
 
-LIKE WORDPRESS  V2 http://localhost:8888/laravel-nestable-menu/public/menuw?menu=1
+LIKE WORDPRESS  V2 http://localhost:8888/laravel-nestable-menu/public/menuw
 
 NORMAL V1 http://localhost:8888/laravel-nestable-menu/public/menucreator
 
