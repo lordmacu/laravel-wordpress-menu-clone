@@ -12,7 +12,7 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
-Route::get('/menudos', array('as' => 'menudos','uses'=>'HomeController@menudos'));
+
 Route::get('/reorganizar', array('as' => 'reorganizar','uses'=>'HomeController@reorganizar'));
 
 
@@ -36,6 +36,15 @@ Route::post('/menudeletepost', array('as' => 'menudeletepost','uses'=>'HomeContr
 
 //version dos
 
+Route::get('/menuw', array('as' => 'menuw','uses'=>'HomeController@menuw'));
+
+Route::post('/addcustommenu', array('as' => 'addcustommenu','uses'=>'HomeController@addcustommenu'));
+Route::post('/deleteitemmenu', array('as' => 'deleteitemmenu','uses'=>'HomeController@deleteitemmenu'));
+Route::post('/deletemenug', array('as' => 'deletemenug','uses'=>'HomeController@deletemenug'));
+Route::post('/createnewmenu', array('as' => 'createnewmenu','uses'=>'HomeController@createnewmenu'));
+
 
 
 Route::post('/generatemenucontrol', array('as' => 'generatemenucontrol','uses'=>'HomeController@generatemenucontrol'));
+Route::post('/updateitem', array('as' => 'updateitem','uses'=>'HomeController@updateitem'));
+

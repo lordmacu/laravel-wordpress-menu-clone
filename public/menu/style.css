@@ -1473,6 +1473,7 @@ input, select {
 }
 input.code {
     padding-top: 6px;
+    width: 100%
 }
 textarea.code {
     line-height: 1.4;
@@ -2991,3 +2992,6 @@ margin-top: 3px;
 margin-top: 25px;
 }
 
+.description-wide {
+width: 90%;
+}
