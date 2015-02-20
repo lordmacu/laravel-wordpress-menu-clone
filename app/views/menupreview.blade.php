@@ -342,8 +342,57 @@
 					</div>
 					<div class="site-menu">
 						<div class="container">
-
-
+<?php
+								function generarmenu($menus) {
+									$html = '<style>  .infolist{ display:block !important}</style>';
+									foreach ($menus as $menu) {
+										$menustring = explode(" ", $menu['class']);
+	
+										if (!isset($menustring[1])) {
+											$menustring[1] = "";
+										}
+										if (!isset($menustring[0])) {
+											$menustring[0] = "";
+										}
+									if ($menustring[0] == "submenumega") {
+										$html .= '<div class="'.$menustring[1].'">';
+										}
+										$html .= '<li id="menuitem_' . $menu['id'] . '"  data-class="' . $menu['class'] . '" data-sort="' . $menu['sort'] . '" data-link="' . $menu['link'] . '"  data-label="' . $menu['label'] . '" data-id="' . $menu['id'] . '">';
+										if ($menustring[0] == "submenumega") {
+											$html .= '<span>' . $menu['label'] . ' </span>';
+										} else {
+											$html .= '<a href="' . $menu['link'] . '" class="sf-with-ul">' . $menu['label'] . ' </a>';
+										}
+										if ($menustring[0] == "sf-megas") {
+											$html .= '<div class="sf-mega"><div class="sf-mega-content"><div class="row">';
+									}
+										if (isset($menu["hijos"])) {
+											if ($menustring[0] == "sf-megas") {
+												$html .= '<ul >';
+	
+											} else {
+												if ($menustring[0] == "submenumega") {
+													$html .= '<ul  class="infolist">';
+	
+												} else {
+													$html .= '<ul class="dd-list">';
+												}
+											}
+											$html .= generarmenu($menu["hijos"]);
+											$html .= '</ul>';
+										}
+										if ($menustring[0] == "sf-megas") {
+											$html .= '</div></div></div>';
+										}
+										if ($menustring[0] == "submenumega") {
+											$html .= '</div>';
+										}
+										$html .= '</li>';
+									}
+									return $html;
+							}
+								?>
+   
 							<div class="site-menu-inner clearfix menuborders">
 								<div class="site-menu-container pull-left">
 									<nav class="hidden-xs hidden-sm">
