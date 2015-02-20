@@ -560,7 +560,7 @@
 							 
 							
 					if (!!arraydata[j + i]) {
-						if ((arraydata[j].profundidad < arraydata[j + i].profundidad)) {
+						if ((arraydata[j].profundidad < arraydata[j + i].profundidad) && ) {
 
 							hijos.push(arraydata[j + i]);
 						}
