@@ -15,9 +15,168 @@ class HomeController extends BaseController {
 	 |
 	 */
 
-	 public function menudos(){
-	 	return View::make('menudos');
+	 
+	 
+	 //versiondos
+	 
+	 public function generatemenucontrol(){
+		
+		
+		
+		
+		foreach (Input::get("arraydata") as   $value) {
+			
+			$menuitem= MenuItem::find($value["id"]);
+			$menuitem->parent=$value["parent"];
+			$menuitem->sort=$value["sort"];
+			$menuitem->depth=$value["depth"];
+			 $menuitem->save();
+			echo $value["sort"];
+				}
 	 }
+	 ///
+	 
+	 
+	protected $arraygeneral = array();
+	function ingreasralarray($array, $index) {
+		$this -> arraygeneral[$index][] = $array;
+	}
+
+	public function reorganizar() {
+		$stringjson = '[{"profundidad":0,"id":"1"},{"profundidad":1,"id":"2"},{"profundidad":1,"id":"3"},{"profundidad":1,"id":"4"},{"profundidad":0,"id":"5"},{"profundidad":0,"id":"6"},{"profundidad":0,"id":"7"},{"profundidad":1,"id":"8"},{"profundidad":0,"id":"9"}]';
+		
+		$stringjson='[{"profundidad":0,"id":"1"},{"profundidad":0,"id":"2"},{"profundidad":0,"id":"3"},{"profundidad":0,"id":"4"},{"profundidad":0,"id":"5"},{"profundidad":0,"id":"6"},{"profundidad":0,"id":"8"},{"profundidad":1,"id":"9"},{"profundidad":1,"id":"7"}]';
+
+		$arraymenus = json_decode($stringjson, true);
+		$arraytemporal = array();
+		$contador = 0;
+		for ($i = 0; $i < count($arraymenus); $i++) {
+
+			$arraymenus[$i]["contador"] = $contador;
+			$arraytemporal[$arraymenus[$i]["profundidad"]][] = $arraymenus[$i];
+
+			$contador++;
+		}
+
+//echo json_encode($arraytemporal);
+
+		$arraygeneraldos = array();
+
+		for ($i = 0; $i < count($arraytemporal); $i++) {
+			for ($j = 0; $j < count($arraytemporal[$i]); $j++) {
+				
+				
+				
+				$arraygeneraldos[$arraytemporal[$i][$j]["id"]]["padre"] = $arraytemporal[$i][$j];
+				if (isset($arraytemporal[$i][$j + 1])) {
+					$rangos = $this -> filtrarrango($arraytemporal[$i][$j], $arraytemporal[$i][$j + 1], $arraymenus);
+					$arraygeneraldos[$arraytemporal[$i][$j]["id"]]["hijos"] = $rangos;
+				}
+
+				
+
+
+			}
+		}
+		
+		//echo json_encode($arraygeneraldos);
+		
+		$arrayreorganizado = $this -> reorganizararray($arraygeneraldos);
+
+		//echo json_encode($arraygeneraldos);
+
+		$filtrararrayexistente=$this->filtrararrayexistente($arrayreorganizado);
+		echo json_encode($filtrararrayexistente);
+	}
+
+public function filtrararrayexistente($arrayreorganizado){
+//	echo json_encode($arrayreorganizado);
+	$arrayfin=array();
+	for ($r = 1; $r < count($arrayreorganizado)+1; $r++) {
+
+			$validarexistencia = $this -> validarexistencia($arrayreorganizado, $arrayreorganizado[$r]["padre"]["id"]);
+
+			if ($validarexistencia == 1) {
+				echo "este valor esta en algun hijo".$arrayreorganizado[$r]["padre"]["id"];
+				echo "<br><br>";
+			}else{
+				array_push($arrayfin,$arrayreorganizado[$r]);
+			}
+		}
+	return $arrayfin;
+}
+
+	public function validarexistencia($array, $existencia) {
+		$retorno = 0;
+		foreach ($array as $value) {
+
+			if (isset($value["hijos"])) {
+
+				if (count($value["hijos"]) != 0) {
+
+					for ($i = 0; $i < count($value["hijos"]); $i++) {
+
+						if ($value["hijos"][$i]["id"] == $existencia) {
+
+							$retorno = 1;
+
+						}
+
+					}
+				}
+
+			}
+
+		}
+		return $retorno;
+	}
+
+	public function reorganizararray($arraygeneraldos) {
+		$arrayitems = array();
+		$contador = 0;
+		foreach ($arraygeneraldos as $key => $value) {
+
+			//var_dump($value);
+			$arrayitems[$key]["padre"] = $value["padre"];
+			$arrayitems[$key]["padre"]["contador"] = $contador;
+
+			if (isset($value["hijos"])) {
+				$contadors = 0;
+				foreach ($value["hijos"] as $hij) {
+					//echo json_encode($hij);
+					//echo "<br><br>";
+					$arrayitems[$key]["hijos"][$contadors] = $hij;
+
+					$contadors++;
+				}
+				//echo json_encode($value["hijos"]);
+			}
+
+			$contador++;
+		}
+		return $arrayitems;
+	}
+
+	public function filtrarrango($rangouno, $rangodos, $array) {
+		$arrayfin = array();
+		for ($i = $rangouno["contador"]; $i < $rangodos["contador"]; $i++) {
+			if ($rangouno["profundidad"] < $array[$i]["profundidad"]) {
+				$arrayfin[$i] = $array[$i];
+			}
+
+		}
+		return $arrayfin;
+	}
+
+	public function menudos() {
+		
+		
+		$menuitems= new MenuItem();
+		$menus=	$menuitems->getall(1);
+		
+		return View::make('menudos')->with("menus",$menus);
+	}
+
 	public function deletemenu() {
 		$menus = new MenuItem();
 		$getall = $menus -> getall(Input::get("m"));
@@ -66,7 +225,8 @@ class HomeController extends BaseController {
 	public function widgetcreator() {
 		$widget = Widget::all();
 
-		return View::make('widgetcreator') -> with("widgets", $widget); ;
+		return View::make('widgetcreator') -> with("widgets", $widget);
+		;
 	}
 
 	function buildMenu($parent, $menu) {
@@ -245,9 +405,9 @@ class HomeController extends BaseController {
 		if ($widgetbymenu -> count()) {
 			$widget = Widget::find($widgetbymenu[0] -> id);
 		}
-		
+
 		$widget -> name = $menufind -> name;
-		$widget->id_component=Input::get("id"); 
+		$widget -> id_component = Input::get("id");
 		$widget -> description = $this -> generarmenu($items);
 		$widget -> save();
 
@@ -264,7 +424,8 @@ class HomeController extends BaseController {
 		$items = $this -> buildMenu(0, $menu);
 
 		//	echo $this->generarmenu($items);
-		return View::make('menupreview') -> with("menus", $items); ;
+		return View::make('menupreview') -> with("menus", $items);
+		;
 	}
 
 	public function menupost() {

@@ -13,6 +13,8 @@
 |
 */
 Route::get('/menudos', array('as' => 'menudos','uses'=>'HomeController@menudos'));
+Route::get('/reorganizar', array('as' => 'reorganizar','uses'=>'HomeController@reorganizar'));
+
 
 Route::get('/generatemenu', array('as' => 'generatemenu','uses'=>'HomeController@generatemenu'));
 Route::get('/menucreator', array('as' => 'menucreator','uses'=>'HomeController@menucreator'));
@@ -28,3 +30,12 @@ Route::post('/updatemenus', array('as' => 'updatemenus','uses'=>'HomeController@
 Route::post('/createmenu', array('as' => 'createmenu','uses'=>'HomeController@createmenu'));
 Route::post('/createwidget', array('as' => 'createwidget','uses'=>'HomeController@createwidget'));
 Route::post('/menudeletepost', array('as' => 'menudeletepost','uses'=>'HomeController@menudeletepost'));
+
+
+
+
+//version dos
+
+
+
+Route::post('/generatemenucontrol', array('as' => 'generatemenucontrol','uses'=>'HomeController@generatemenucontrol'));
