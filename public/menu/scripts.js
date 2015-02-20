@@ -1815,8 +1815,6 @@ var wpNavMenu;
             a("#update-nav-menu").bind("click", function(a) {
                 if (a.target && a.target.className) {
                     if (-1 != a.target.className.indexOf("item-edit")) return b.eventOnClickEditLink(a.target);
-                    if (-1 != a.target.className.indexOf("menu-save")) return b.eventOnClickMenuSave(a.target);
-                    if (-1 != a.target.className.indexOf("menu-delete")) return b.eventOnClickMenuDelete(a.target);
                     if (-1 != a.target.className.indexOf("item-delete")) return b.eventOnClickMenuItemDelete(a.target);
                     if (-1 != a.target.className.indexOf("item-cancel")) return b.eventOnClickCancelLink(a.target)
                 }
@@ -1877,35 +1875,6 @@ var wpNavMenu;
                 b.processQuickSearchQueryResponse(a, e, d)
             }))
         },
-        addCustomLink: function(c) {
-            var d = a("#custom-menu-item-url").val(),
-                e = a("#custom-menu-item-name").val();
-            return c = c || b.addMenuItemToBottom, "" === d || "http://" == d ? !1 : (a(".customlinkdiv .spinner").show(), void this.addLinkToMenu(d, e, c, function() {
-                a(".customlinkdiv .spinner").hide(), a("#custom-menu-item-name").val("").blur(), a("#custom-menu-item-url").val("http://")
-            }))
-        },
-        addLinkToMenu: function(a, c, d, e) {
-            d = d || b.addMenuItemToBottom, e = e || function() {}, b.addItemToMenu({
-                "-1": {
-                    "menu-item-type": "custom",
-                    "menu-item-url": a,
-                    "menu-item-title": c
-                }
-            }, d, e)
-        },
-        addItemToMenu: function(b, c, d) {
-            var e, f = a("#menu").val(),
-                g = a("#menu-settings-column-nonce").val();
-            c = c || function() {}, d = d || function() {}, e = {
-                action: "add-menu-item",
-                menu: f,
-                "menu-settings-column-nonce": g,
-                "menu-item": b
-            }, a.post(ajaxurl, e, function(b) {
-                var f = a("#menu-instructions");
-                b = a.trim(b), c(b, e), a("li.pending").hide().fadeIn("slow"), a(".drag-instructions").show(), !f.hasClass("menu-instructions-inactive") && f.siblings().length && f.addClass("menu-instructions-inactive"), d()
-            })
-        },
         addMenuItemToBottom: function(c) {
             a(c).hideAdvancedMenuItemFields().appendTo(b.targetList), b.refreshKeyboardAccessibility(), b.refreshAdvancedAccessibility()
         },
@@ -1951,22 +1920,22 @@ var wpNavMenu;
                 d = a(b).closest(".menu-item");
             return d.removeClass("menu-item-edit-active").addClass("menu-item-edit-inactive"), c.setItemData(c.data("menu-item-data")).hide(), !1
         },
-        eventOnClickMenuSave: function() {
-            var c = "",
-                d = a("#menu-name"),
-                e = d.val();
-            return e && e != d.attr("title") && e.replace(/\s+/, "") ? (a("#nav-menu-theme-locations select").each(function() {
-                c += '<input type="hidden" name="' + this.name + '" value="' + a(this).val() + '" />'
-            }), a("#update-nav-menu").append(c), b.menuList.find(".menu-item-data-position").val(function(a) {
-                return a + 1
-            }), window.onbeforeunload = null, !0) : (d.parent().addClass("form-invalid"), !1)
-        },
-        eventOnClickMenuDelete: function() {
-            return window.confirm(navMenuL10n.warnDeleteMenu) ? (window.onbeforeunload = null, !0) : !1
-        },
+       
         eventOnClickMenuItemDelete: function(c) {
-            var d = parseInt(c.id.replace("delete-", ""), 10);
+        	
+        	var r = confirm("Do you want to delete this item ?");
+if (r == true) {
+   var d = parseInt(c.id.replace("delete-", ""), 10);
+               deleteitem(d);
+
             return b.removeMenuItem(a("#menu-item-" + d)), b.registerChange(), !1
+            
+}else{
+	return false;
+}
+        	
+        	
+           
         },
         processQuickSearchQueryResponse: function(b, c, d) {
             var e, f, g, h = {},
