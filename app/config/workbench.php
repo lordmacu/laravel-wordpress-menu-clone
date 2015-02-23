@@ -13,7 +13,7 @@ return array(
 	|
 	*/
 
-	'name' => '',
+	'name' => 'Cristian Garcia',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -26,6 +26,6 @@ return array(
 	|
 	*/
 
-	'email' => '',
+	'email' => 'informacion@cristiangarcia.co',
 
 );

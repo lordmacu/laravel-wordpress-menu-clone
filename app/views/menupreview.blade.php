@@ -413,7 +413,7 @@
 									</div>
 								</div>
 							</div>
-
+<!--
 							<div class="site-menu-inner clearfix menuborders">
 								<div class="site-menu-container pull-left">
 									<nav class="hidden-xs hidden-sm">
@@ -679,6 +679,7 @@
 								</div>
 							</div>
 
+						-->
 							<div style="height:2px; width:100%;border-bottom: solid 1px #000;"></div>
 
 						</div>
