@@ -234,41 +234,42 @@
 
 			<script type="text/javascript" src="{{asset('menu/scripts2.js')}}"></script>
 			<script>
-				var arraydata = [];
-				function getmenus() {
-					$("#spinsavemenu").show()
+		
+var arraydata = [];
+function getmenus() {
+    $("#spinsavemenu").show()
 
-					var cont = 0;
-					$("#menu-to-edit li").each(function(index) {
-						var dept = 0;
-						for (var i = 0; i < $("#menu-to-edit li").length; i++) {
+    var cont = 0;
+    $("#menu-to-edit li").each(function(index) {
+        var dept = 0;
+        for (var i = 0; i < $("#menu-to-edit li").length; i++) {
 
-							var n = $(this).attr("class").indexOf("menu-item-depth-" + i);
-							if (n != -1) {
-								dept = i;
-							}
-						};
+            var n = $(this).attr("class").indexOf("menu-item-depth-" + i);
+            if (n != -1) {
+                dept = i;
+            }
+        };
 
-						var textoiner = $(this).find(".item-edit").context.outerText;
+        var textoiner = $(this).find(".item-edit").context.outerText;
 
-						var textoexplotado = textoiner.split("|");
-						var padre = 0;
-						if (textoexplotado.length == 7) {
-							padre = textoexplotado[5]
-						}
+        var textoexplotado = textoiner.split("|"); 
+        var padre = 0;  
+        if (!!textoexplotado[textoexplotado.length-2]) {  
+            padre = textoexplotado[textoexplotado.length-2]
+        }
 
-						var id = this.id.split("-");
+        var id = this.id.split("-");
 
-						arraydata.push({
-							depth : dept,
-							id : id[2],
-							parent : padre,
-							sort : cont
-						})
-						cont++;
-					});
-					actualizarmenu();
-				}
+        arraydata.push({
+            depth : dept,
+            id : id[2],
+            parent : padre,
+            sort : cont
+        })
+        cont++;
+    });
+ 	actualizarmenu();
+}
 
 				function addcustommenu() {
 					$("#spincustomu").show();
